@@ -8,13 +8,16 @@
     {
       "matches": [
         "*://www.overleaf.com/*",
-        "*://app.slack.com/*"
+        "*://app.slack.com/*",
+        "*://dynalist.io/*"
       ],
       "css": [
-        "/static/css/main.css"
+        "/static/css/main.chunk.css"
       ],
       "js": [
-        "/static/js/main.js"
+        "/static/js/0.chunk.js",
+        "/static/js/main.chunk.js",
+        "/static/js/runtime-main.js"
       ]
     }
   ],

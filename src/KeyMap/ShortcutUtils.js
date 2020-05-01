@@ -9,7 +9,7 @@ const shortcutValues = {
   control: 1,
   shift: 3,
   alt: 2,
-  meta: 4
+  meta: 4,
 };
 
 export const MODIFIERS = ["control", "meta", "shift", "alt", "fn"];
@@ -35,7 +35,7 @@ const SHIFT_HELD_KEY_MAPPINGS = {
   "(": "9",
   ")": "0",
   _: "-",
-  "+": "="
+  "+": "=",
 };
 
 /**
@@ -119,5 +119,5 @@ export function getModifiersFromChord(chord) {
 }
 
 export function getLetterFromChord(chord) {
-  return chord.filter(chord => !isModifier(chord))[0];
+  return chord.filter((chord) => !isModifier(chord))[0];
 }

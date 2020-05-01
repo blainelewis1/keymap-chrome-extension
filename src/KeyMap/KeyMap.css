@@ -137,6 +137,7 @@ Gaps: 6
 .keymap--keymap .button--keymap {
   /* visibility: hidden; */
   display: none;
+  pointer-events: none;
 }
 
 .button--keymap .pressed--keymap {
@@ -146,13 +147,19 @@ Gaps: 6
 
 .keymap--keymap .modifier--keymap {
   display: inline-block;
-
+  pointer-events: auto;
   /* visibility: visible; */
 }
 
-.active--keymap .button--keymap {
-  display: inline-block;
+.disable-always--keymap .modifier--keymap {
+  display: none;
+  pointer-events: none;
+}
 
+.active--keymap .button--keymap,
+.active--keymap .keymap--keymap .disable-always--keymap .modifier--keymap {
+  display: inline-block;
+  pointer-events: auto;
   /* visibility: visible; */
 }
 

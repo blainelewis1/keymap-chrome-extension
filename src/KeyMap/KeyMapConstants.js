@@ -1,4 +1,4 @@
-import { mapValues } from "lodash";
+import { mapValues } from "lodash-es";
 
 export const baseLayout = [
   [
@@ -15,7 +15,7 @@ export const baseLayout = [
     { label: "0" },
     { label: "-" },
     { label: "=" },
-    { label: "delete" }
+    { label: "delete" },
   ],
   [
     { label: "tab" },
@@ -31,7 +31,7 @@ export const baseLayout = [
     { label: "p", type: "letter" },
     { label: "[", id: "left-square-bracket" },
     { label: "]", id: "right-square-bracket" },
-    { label: "\\", id: "backslash" }
+    { label: "\\", id: "backslash" },
   ],
   [
     { label: "caps lock", id: "caps-lock" },
@@ -46,7 +46,7 @@ export const baseLayout = [
     { label: "l", type: "letter" },
     { label: ";" },
     { label: "'" },
-    { label: "return" }
+    { label: "return" },
   ],
   [
     { label: "shift", id: "left-shift", type: "modifier" },
@@ -60,8 +60,8 @@ export const baseLayout = [
     { label: "," },
     { label: "." },
     { label: "/" },
-    { label: "shift", id: "right-shift" }
-  ]
+    { label: "shift", id: "right-shift" },
+  ],
 ];
 
 export const macbookBottomRow = [
@@ -72,14 +72,14 @@ export const macbookBottomRow = [
     id: "left-option",
     keyName: "alt",
     symbol: "⌥",
-    type: "modifier"
+    type: "modifier",
   },
   {
     label: "command",
     id: "left-command",
     keyName: "meta",
     symbol: "⌘",
-    type: "modifier"
+    type: "modifier",
   },
   { label: " ", id: "space" },
   { label: "command", id: "right-command", keyName: "meta", symbol: "⌘" },
@@ -89,21 +89,21 @@ export const macbookBottomRow = [
     symbol: "◀",
     type: "arrow",
     id: "left-arrow",
-    keyName: "arrowleft"
+    keyName: "arrowleft",
   },
   {
     label: "",
     symbol: "▲\n▼",
     id: "vertical-arrow",
-    type: "arrow"
+    type: "arrow",
   },
   {
     label: "",
     symbol: "▶",
     type: "arrow",
     id: "right-arrow",
-    keyName: "arrowright"
-  }
+    keyName: "arrowright",
+  },
 ];
 
 export const macBottomRow = [
@@ -113,14 +113,14 @@ export const macBottomRow = [
     id: "left-option",
     keyName: "alt",
     symbol: "⌥",
-    type: "modifier"
+    type: "modifier",
   },
   {
     label: "command",
     id: "left-command",
     keyName: "meta",
     symbol: "⌘",
-    type: "modifier"
+    type: "modifier",
   },
   { label: " ", id: "space" },
   { label: "command", id: "right-command", keyName: "meta", symbol: "⌘" },
@@ -130,21 +130,21 @@ export const macBottomRow = [
     symbol: "◀",
     type: "arrow",
     id: "left-arrow",
-    keyName: "arrowleft"
+    keyName: "arrowleft",
   },
   {
     label: "",
     symbol: "▲\n▼",
     id: "vertical-arrow",
-    type: "arrow"
+    type: "arrow",
   },
   {
     label: "",
     symbol: "▶",
     type: "arrow",
     id: "right-arrow",
-    keyName: "arrowright"
-  }
+    keyName: "arrowright",
+  },
 ];
 
 export const windowsBottomRow = [
@@ -153,23 +153,23 @@ export const windowsBottomRow = [
     label: "",
     id: "left-meta",
     type: "modifier",
-    symbol: "⊞"
+    symbol: "⊞",
   },
   {
     label: "alt",
     id: "left-alt",
     keyName: "alt",
-    type: "modifier"
+    type: "modifier",
   },
   { label: " ", id: "space" },
   {
     label: "alt",
     id: "right-alt",
-    keyName: "alt"
+    keyName: "alt",
   },
   { label: "", id: "right-meta", keyName: "meta", symbol: "⊞" },
   { label: "", id: "context", symbol: "≣" },
-  { label: "ctrl", id: "right-ctrl", keyName: "meta" }
+  { label: "ctrl", id: "right-ctrl", keyName: "meta" },
 ];
 
 export const windowsLaptopBottomRow = [
@@ -179,19 +179,19 @@ export const windowsLaptopBottomRow = [
     label: "",
     symbol: "⊞",
     id: "left-meta",
-    type: "modifier"
+    type: "modifier",
   },
   {
     label: "alt",
     id: "left-alt",
     keyName: "alt",
-    type: "modifier"
+    type: "modifier",
   },
   { label: " ", id: "space" },
   {
     label: "alt",
     id: "right-alt",
-    keyName: "alt"
+    keyName: "alt",
   },
   { label: "", id: "context", symbol: "≣" },
   { label: "ctrl", id: "right-ctrl", keyName: "ctrl" },
@@ -200,21 +200,21 @@ export const windowsLaptopBottomRow = [
     symbol: "◀",
     type: "arrow",
     id: "left-arrow",
-    keyName: "arrowleft"
+    keyName: "arrowleft",
   },
   {
     label: "",
     symbol: "▲\n▼",
     id: "vertical-arrow",
-    type: "arrow"
+    type: "arrow",
   },
   {
     label: "",
     symbol: "▶",
     type: "arrow",
     id: "right-arrow",
-    keyName: "arrowright"
-  }
+    keyName: "arrowright",
+  },
 ];
 
 export const surfaceBottomRow = [
@@ -224,19 +224,19 @@ export const surfaceBottomRow = [
     label: "",
     symbol: "⊞",
     id: "left-meta",
-    type: "modifier"
+    type: "modifier",
   },
   {
     label: "alt",
     id: "left-alt",
     keyName: "alt",
-    type: "modifier"
+    type: "modifier",
   },
   { label: " ", id: "space" },
   {
     label: "alt",
     id: "right-alt",
-    keyName: "alt"
+    keyName: "alt",
   },
   { label: "", id: "context", symbol: "≣" },
   {
@@ -244,21 +244,21 @@ export const surfaceBottomRow = [
     symbol: "◀",
     type: "arrow",
     id: "left-arrow",
-    keyName: "arrowleft"
+    keyName: "arrowleft",
   },
   {
     label: "",
     symbol: "▲\n▼",
     id: "vertical-arrow",
-    type: "arrow"
+    type: "arrow",
   },
   {
     label: "",
     symbol: "▶",
     type: "arrow",
     id: "right-arrow",
-    keyName: "arrowright"
-  }
+    keyName: "arrowright",
+  },
 ];
 
 export const bottomRows = {
@@ -266,10 +266,10 @@ export const bottomRows = {
   macbook: macbookBottomRow,
   windows: windowsBottomRow,
   "windows-laptop": windowsLaptopBottomRow,
-  surface: surfaceBottomRow
+  surface: surfaceBottomRow,
 };
 
-export const layouts = mapValues(bottomRows, bottomRow => [
+export const layouts = mapValues(bottomRows, (bottomRow) => [
   ...baseLayout,
-  bottomRow
+  bottomRow,
 ]);

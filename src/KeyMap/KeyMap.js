@@ -1,13 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-import Shortcuts from "../Shortcuts/Shortcuts";
-import { chordArrayToString } from "../Shortcuts/ShortcutUtils";
+import { chordArrayToString } from "./ShortcutUtils";
 
-import { connect } from "react-redux";
 import { layouts } from "./KeyMapConstants";
-import { resetShortcuts } from "../../actions/shortcuts";
-import { throttle, noop } from "lodash";
+import { throttle, noop } from "lodash-es";
 import "./KeyMap.css";
+import { useCommandHierarchyWithDelay } from "./shortcutHooks";
 
 //TODOLATER: Include command icon?
 //TODOLATER: translucent blur between keys
@@ -35,7 +33,7 @@ export const Key = ({
   pressed,
   type,
   onClick,
-  color = "initial"
+  color = "initial",
 }) => {
   let hasCommandOrSubmenu = command || submenu;
   let faded = hasCommandOrSubmenu || pressed ? "" : "faded--keymap";
@@ -45,7 +43,7 @@ export const Key = ({
   return (
     <div
       //TODOLATER: Should we be binding the name here, or a level up?
-      onClick={e => onClick(keyName || label, e)}
+      onClick={(e) => onClick(keyName || label, e)}
       className={`button--keymap ${faded} ${pressed} ${type}`}
       id={id || label}
       // style={{
@@ -64,11 +62,11 @@ export const Row = ({
   row,
   commandsAvailable,
   onKeyClick,
-  modifiersPressed
+  modifiersPressed,
 }) => {
   return (
     <div className="row--keymap">
-      {row.map(keyConfig => (
+      {row.map((keyConfig) => (
         <Key
           key={keyConfig.id || keyConfig.label}
           onClick={onKeyClick}
@@ -86,24 +84,29 @@ export const KeyMapDisplay = ({
   layoutName = "mac",
   active = false,
   modifiersPressed = {},
-  onKeyClick = noop
+  onKeyClick = noop,
+  disableAlwaysKeys = false,
 }) => {
   let classes = ["container--keymap"];
   if (active) {
     classes.push("active--keymap");
   }
 
+  if (disableAlwaysKeys) {
+    classes.push("disable-always--keymap");
+  }
+
   let viewportWidth = Math.max(
     document.documentElement.clientWidth,
     window.innerWidth || 0
   );
+
   let layout = layouts[layoutName];
 
   return (
     <div
       style={{ transform: `scale(${viewportWidth / 988})` }}
-      className={`keymap--keymap containerscontainer--keymap ${layoutName ||
-        "mac"}`}
+      className={`keymap--keymap containerscontainer--keymap ${layoutName}`}
     >
       <div className={classes.join(" ")}>
         {layout.map((row, index) => (
@@ -120,75 +123,84 @@ export const KeyMapDisplay = ({
   );
 };
 
-export class KeyMap extends React.Component {
-  constructor(props) {
-    super(props);
-    this.shortcuts = React.createRef();
-  }
+let useRerenderOnResize = (throttleAmount = 300) => {
+  let [renderCount, setRenderCount] = useState(0);
+  useEffect(() => {
+    const resize = throttle(() => {
+      setRenderCount(renderCount++);
+    }, throttleAmount);
 
-  resize = throttle(() => {
-    this.forceUpdate();
-  }, 300);
+    window.addEventListener("resize", resize);
 
-  componentDidMount() {
-    window.addEventListener("resize", this.resize);
-    document.addEventListener("click", this.props.onClose);
-  }
+    return () => window.removeEventListener("resize", resize);
+  });
+};
 
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.resize);
-    document.removeEventListener("click", this.props.onClose);
-  }
+const KeyMap = ({
+  layoutName = "mac",
+  commandHierarchy,
+  onCommand,
+  ...props
+}) => {
+  let {
+    modifiersPressed,
+    keyClicked,
+    delayOver,
+    path,
+    reset,
+  } = useCommandHierarchyWithDelay(commandHierarchy, onCommand, props.delay);
 
-  render() {
-    let currentModifiers = Object.keys(this.props.modifiersPressed).filter(
-      m => this.props.modifiersPressed[m]
-    );
-
-    let modifiersPressedString = chordArrayToString(currentModifiers);
-    const currentHierarchy = this.props.path.reduce(
-      (prev, current) => prev[current],
-      this.props.commandHierarchy
-    );
-    let commandsAvailable = currentHierarchy[modifiersPressedString] || {};
-
-    let pathInProgressOrModifierPressed =
-      modifiersPressedString.length + this.props.path.length > 0;
-
-    let active =
-      (pathInProgressOrModifierPressed && this.props.delayTimeOver) ||
-      this.props.demo;
-
-    return (
-      <React.Fragment>
-        <Shortcuts ref={this.shortcuts} {...this.props} />
-        <KeyMapDisplay
-          layoutName={this.props.layoutName}
-          active={active}
-          commandsAvailable={commandsAvailable}
-          onKeyClick={this.handleKeyClick.bind(this)}
-          modifiersPressed={this.props.modifiersPressed}
-        />
-      </React.Fragment>
-    );
-  }
-
-  handleKeyClick(key, e) {
+  function handleKeyClick(key, e) {
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
 
-    this.shortcuts.current.wrappedInstance.handleKeyboard({
-      type: "click",
-      key: key
-    });
+    keyClicked(key);
   }
-}
 
-export default connect(
-  state => {
-    return { ...state.shortcuts };
-  },
-  {
-    onResetShortcuts: resetShortcuts
-  }
-)(KeyMap);
+  useRerenderOnResize();
+
+  useEffect(() => {
+    document.addEventListener("click", reset);
+    window.addEventListener("blur", reset);
+
+    return () => {
+      document.removeEventListener("click", reset);
+      window.removeEventListener("blur", reset);
+    };
+  }, [reset]);
+
+  // TODO:
+
+  let currentModifiers = Object.keys(modifiersPressed).filter(
+    (m) => modifiersPressed[m]
+  );
+
+  let modifiersPressedString = chordArrayToString(currentModifiers);
+
+  const currentHierarchy = path.reduce(
+    (prev, current) => prev[current],
+    commandHierarchy
+  );
+
+  let commandsAvailable = currentHierarchy[modifiersPressedString] || {};
+
+  let pathInProgressOrModifierPressed =
+    modifiersPressedString.length + path.length > 0;
+
+  let active = pathInProgressOrModifierPressed && delayOver;
+
+  return (
+    <>
+      <KeyMapDisplay
+        {...props}
+        layoutName={layoutName}
+        active={active}
+        commandsAvailable={commandsAvailable}
+        onKeyClick={handleKeyClick}
+        modifiersPressed={modifiersPressed}
+      />
+    </>
+  );
+};
+
+export default KeyMap;

@@ -10,7 +10,7 @@ import {
   FormControlLabel,
 } from "@material-ui/core";
 import HourglassEmpty from "@material-ui/icons/HourglassEmpty";
-import KeyMap from "../KeyMap/KeyMap";
+import KeyMap from "@blainelewis1/keymap";
 
 import { CHROME_COMMAND_HIERARCHY } from "../CommandHierarchies";
 

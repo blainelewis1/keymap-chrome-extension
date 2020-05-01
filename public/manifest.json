@@ -1,6 +1,6 @@
 {
   "name": "KeyMap",
-  "version": "0.1",
+  "version": "1.1",
   "description": "Learn keyboard shortcuts to improve your productivity.",
   "manifest_version": 2,
   "homepage_url": "http://blainelewis.ca/KeyMap",
@@ -23,7 +23,11 @@
   ],
   "options_page": "options.html",
   "permissions": [
-    "storage"
+    "storage",
+    "activeTab",
+    "*://www.overleaf.com/*",
+    "*://app.slack.com/*",
+    "*://dynalist.io/*"
   ],
   "icons": {
     "128": "iconalpha.png"

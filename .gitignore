@@ -20,6 +20,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+keymap-extension.zip
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

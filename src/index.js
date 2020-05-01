@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import KeyMap from "./KeyMap/KeyMap";
+import KeyMap from "@blainelewis1/keymap";
 import {
   CHROME_COMMAND_HIERARCHY,
   mergeCommandHierarchy,

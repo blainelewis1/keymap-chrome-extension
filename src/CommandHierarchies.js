@@ -1,9 +1,62 @@
-import {
-  chordArrayFromString,
-  chordArrayToString,
-  getLetterFromChord,
-  getModifiersFromChord,
-} from "./KeyMap/ShortcutUtils";
+/**
+ * Returns true if the key is a modifier key.
+ *
+ * @param {String} key
+ */
+export function isModifier(key) {
+  return MODIFIERS.indexOf(key) > -1;
+}
+const shortcutValues = {
+  control: 1,
+  shift: 3,
+  alt: 2,
+  meta: 4,
+};
+
+export function compareShortcut(a, b) {
+  if (a === b) {
+    return 0;
+  } else if (a in shortcutValues) {
+    if (b in shortcutValues) {
+      return shortcutValues[a] - shortcutValues[b];
+    } else {
+      return -1;
+    }
+  } else {
+    return 1;
+  }
+}
+
+export const MODIFIERS = ["control", "meta", "shift", "alt", "fn"];
+/**
+ * Given a string of commands like "ctrl+g" returns an array of the paths
+ * in a sorted fashion
+ *
+ * @param {string} string
+ * @returns {Array<String>} path
+ */
+export function chordArrayFromString(string) {
+  return string.split("+").sort(compareShortcut);
+}
+
+/**
+ * Converts a path of keys like [ctrl, g] into a sorted string.
+ *
+ * @param {Array<String>} path
+ * @returns {String}
+ */
+export function chordArrayToString(path) {
+  path.sort(compareShortcut);
+  return path.join("+");
+}
+
+export function getModifiersFromChord(chord) {
+  return chord.filter(isModifier);
+}
+
+export function getLetterFromChord(chord) {
+  return chord.filter((chord) => !isModifier(chord))[0];
+}
 
 /**
  * Merges two command hierarchies. The right side is merged into the right in place.

@@ -1,7 +1,6 @@
 import React from "react";
 
-import { Row } from "../KeyMap/KeyMap";
-import { bottomRows } from "../KeyMap/KeyMapConstants";
+import { bottomRows, Row } from "@blainelewis1/keymap";
 import {
   FormControl,
   FormLabel,
